@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>WebSocket客户端</title>
+    <title>WebSocket 클라이언트</title>
     <script src="https://cdn.bootcss.com/sockjs-client/0.3.4/sockjs.min.js"></script>
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -35,14 +35,14 @@
 <div class="container">
     <div class="row">
         <div class="jumbotron">
-            <input type="text" placeholder="请输入你想传输的内容" id="text" class="col-lg-12"/>
-            <input type="button" value="连接" class="btn btn-info" id="connect" onclick="connect()"/>
-            <input type="button" value="发送" class="btn btn-success" id="sent" disabled="disabled" onclick="sent()"/>
-            <input type="button" value="断开" class="btn btn-danger" id="disconnect" disabled="disabled"
+            <input type="text" placeholder="전송할 내용을 입력하세요" id="text" class="col-lg-12"/>
+            <input type="button" value="연결" class="btn btn-info" id="connect" onclick="connect()"/>
+            <input type="button" value="전송" class="btn btn-success" id="sent" disabled="disabled" onclick="sent()"/>
+            <input type="button" value="연결 끊기" class="btn btn-danger" id="disconnect" disabled="disabled"
                    onclick="disconnect()"/>
 
             <div id="log">
-                <p>聊天记录:</p>
+                <p>채팅 기록:</p>
             </div>
         </div>
     </div>
@@ -61,23 +61,23 @@
         ws = new SockJS(targetUri);
         ws.onopen = function () {
             setConnected(true);
-            log('和服务端连接成功！');
+            log('서버와 연결 성공!');
         };
         ws.onmessage = function (event) {
-            log('服务端说：' + event.data);
+            log('서버가 말했습니다: ' + event.data);
         };
         ws.onclose = function () {
             setConnected(false);
-            log('和服务端断开连接！')
+            log('서버와 연결이 끊어졌습니다!')
         }
     }
 
     function sent() {
         if (ws != null) {
             ws.send(text.value);
-            log('客户端说：' + text.value);
+            log('클라이언트가 말했습니다: ' + text.value);
         } else {
-            log('请先建立连接！')
+            log('먼저 연결을 설정하세요!')
         }
     }
 
