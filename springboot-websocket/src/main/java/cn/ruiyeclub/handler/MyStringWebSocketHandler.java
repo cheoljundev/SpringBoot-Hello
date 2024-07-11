@@ -13,39 +13,36 @@ public class MyStringWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        log.info("和客户端建立连接");
+        log.info("클라이언트와 연결이 설정되었습니다.");
     }
 
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         session.close(CloseStatus.SERVER_ERROR);
-        log.error("连接异常", exception);
+        log.error("연결 오류", exception);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
-        log.info("和客户端断开连接");
+        log.info("클라이언트와의 연결이 끊어졌습니다.");
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        // 获取到客户端发送过来的消息
+        // 클라이언트가 보낸 메시지를 가져옴
         String receiveMessage = message.getPayload();
         log.info(receiveMessage);
-        // 发送消息给客户端
+        // 클라이언트에게 메시지 전송
         session.sendMessage(new TextMessage(fakeAi(receiveMessage)));
-        // 关闭连接
+        // 연결 종료
         // session.close(CloseStatus.NORMAL);
     }
 
     private static String fakeAi(String input) {
         if (input == null || "".equals(input)) {
-            return "你说什么？没听清︎";
+            return "뭐라고? 잘 못 들었어︎";
         }
-        return input.replace('你', '我')
-                .replace("吗", "")
-                .replace('?', '!')
-                .replace('？', '！');
+        return input.replace('?', '!')
     }
 }
